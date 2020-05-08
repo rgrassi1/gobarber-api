@@ -1,9 +1,10 @@
 import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
+import uploadConfig from '@config/upload';
+import AppError from '@shared/errors/AppError';
 import routes from './routes';
-import './database';
-import uploadConfig from './config/upload';
-import AppError from './errors/AppError';
+
+import '@shared/infra/typeorm';
 
 const app = express();
 
@@ -26,5 +27,5 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
 });
 
 app.listen(3333, () => {
-  // console.log('Server started on port 3333.');
+  console.log('Server started on port 3333.');
 });
