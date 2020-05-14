@@ -1,14 +1,12 @@
 import { Request, Response } from 'express';
+import { container } from 'tsyringe';
 import CreateSessionService from '@modules/users/services/CreateSessionService';
-import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
 
 export default class SessionsController {
   public async create(request: Request, response: Response): Promise<Response> {
     const { email, password } = request.body;
 
-    const repository = new UsersRepository();
-
-    const createSession = new CreateSessionService(repository);
+    const createSession = container.resolve(CreateSessionService);
 
     const { user, token } = await createSession.execute({
       email,
