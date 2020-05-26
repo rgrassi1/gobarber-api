@@ -42,7 +42,7 @@ describe('CreateSession', () => {
       fakeHasProvider,
     );
 
-    expect(
+    await expect(
       createSession.execute({
         email: 'robert.ryan@mail.com',
         password: '123456',
@@ -69,7 +69,7 @@ describe('CreateSession', () => {
       password: '123456',
     });
 
-    expect(
+    await expect(
       createSession.execute({
         email: 'robert.ryan@mail.com',
         password: 'wrong-password',
