@@ -1,19 +1,19 @@
 import { MigrationInterface, QueryRunner, TableColumn } from 'typeorm';
 
-export class AddAvatarFieldToUsers1588545741022 implements MigrationInterface {
-  public async up(queryRunner: QueryRunner): Promise<any> {
+export default class AddAvatarFieldToUsers1588545741022
+  implements MigrationInterface {
+  public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.addColumn(
       'users',
       new TableColumn({
         name: 'avatar',
         type: 'varchar',
-        isNullable: true
-      })
+        isNullable: true,
+      }),
     );
   }
 
-  public async down(queryRunner: QueryRunner): Promise<any> {
+  public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropColumn('users', 'avatar');
   }
-
 }
