@@ -1,12 +1,10 @@
 import FakeUsersRepository from '@modules/users/repositories/fake/FakeUsersRepository';
 import CreateSessionService from '@modules/users/services/CreateSessionService';
-import CreateUserService from '@modules/users/services/CreateUserService';
 import FakeHasProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider';
 import AppError from '@shared/errors/AppError';
 
 let fakeUsersRepository: FakeUsersRepository;
 let fakeHashProvider: FakeHasProvider;
-let createUserService: CreateUserService;
 let createSession: CreateSessionService;
 
 describe('CreateSession', () => {
@@ -14,10 +12,6 @@ describe('CreateSession', () => {
     fakeUsersRepository = new FakeUsersRepository();
     fakeHashProvider = new FakeHasProvider();
 
-    createUserService = new CreateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
     createSession = new CreateSessionService(
       fakeUsersRepository,
       fakeHashProvider,
@@ -25,7 +19,7 @@ describe('CreateSession', () => {
   });
 
   it('should be able to create a new session', async () => {
-    const user = await createUserService.execute({
+    const user = await fakeUsersRepository.create({
       name: 'Robert Ryan',
       email: 'robert.ryan@mail.com',
       password: '123456',
@@ -49,8 +43,8 @@ describe('CreateSession', () => {
     ).rejects.toBeInstanceOf(AppError);
   });
 
-  it('should not be able to create a session with non existing user', async () => {
-    await createUserService.execute({
+  it('should not be able to create a session with wrong password', async () => {
+    await fakeUsersRepository.create({
       name: 'Robert Ryan',
       email: 'robert.ryan@mail.com',
       password: '123456',
