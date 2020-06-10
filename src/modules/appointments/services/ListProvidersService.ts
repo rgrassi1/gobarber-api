@@ -22,14 +22,18 @@ export default class ListProvidersService {
     let providers = await this.cacheProvider.recover<User[]>(
       `providers-list:${user_id}`,
     );
+
     if (!providers) {
       providers = await this.repository.findAllProviders({
         except_user_id: user_id,
       });
 
-      await this.cacheProvider.save(`providers-list:${user_id}`, providers);
+      await this.cacheProvider.save(
+        `providers-list:${user_id}`,
+        classToClass(providers),
+      );
     }
 
-    return classToClass(providers);
+    return providers;
   }
 }
